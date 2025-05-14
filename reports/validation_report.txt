@@ -1,0 +1,28 @@
+Data Validation Report
+=====================
+
+DATA SUMMARY
+------------
+row_count: 13
+column_count: 5
+columns: ['date', 'temperature', 'humidity', 'precipitation', 'location']
+missing_values: {'date': 0, 'temperature': 0, 'humidity': 0, 'precipitation': 0, 'location': 0}
+numeric_columns: ['temperature', 'humidity', 'precipitation']
+categorical_columns: ['location']
+datetime_columns: ['date']
+
+NUMERIC STATISTICS
+------------------
+temperature: {'min': np.float64(27.9), 'max': np.float64(32.5), 'mean': np.float64(30.11538461538462), 'median': np.float64(30.1), 'std': np.float64(1.548034320165498), 'missing': np.int64(0), 'zeros': np.int64(0), 'negatives': np.int64(0)}
+humidity: {'min': np.float64(62.7), 'max': np.float64(72.3), 'mean': np.float64(67.61538461538461), 'median': np.float64(67.8), 'std': np.float64(3.3694327301605087), 'missing': np.int64(0), 'zeros': np.int64(0), 'negatives': np.int64(0)}
+precipitation: {'min': np.float64(0.0), 'max': np.float64(0.5), 'mean': np.float64(0.11538461538461539), 'median': np.float64(0.0), 'std': np.float64(0.17722938923964165), 'missing': np.int64(0), 'zeros': np.int64(8), 'negatives': np.int64(0)}
+
+VALIDATION ERRORS
+-----------------
+- Row 3: 'invalid' is not a valid number in column 'temperature'
+- Row 7: 'not-a-date' is not a valid date in format '%Y-%m-%d'
+
+VALIDATION STATUS
+-----------------
+Failed
+
