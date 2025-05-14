@@ -194,10 +194,6 @@ VALIDATION STATUS
 Failed
 ```
 
-![img.png](img.png)
-![img_2.png](img_2.png)
-![img_1.png](img_1.png)
-
 ### Visualization Outputs
 
 The project generates multiple visualization outputs:
@@ -208,3 +204,7 @@ The project generates multiple visualization outputs:
 4. **Correlation Heatmap**: Heatmap showing correlations between numeric variables
 
 These visualizations help identify patterns, trends, and relationships in the validated data.
+
+![img.png](img.png)
+![img_2.png](img_2.png)
+![img_1.png](img_1.png)
