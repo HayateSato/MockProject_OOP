@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MockProject_OOP Component Interactions</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        .component-diagram {
+            margin: 30px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .mermaid {
+            text-align: center;
+            margin: 30px 0;
+            overflow-x: auto;
+        }
+        .explanation {
+            margin: 30px 0;
+        }
+        .module-details {
+            margin: 40px 0;
+        }
+        .module-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .module-name {
+            font-weight: bold;
+            color: #2980b9;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        .class-list {
+            margin-left: 20px;
+        }
+        .workflow-section {
+            margin: 40px 0;
+        }
+        .code-block {
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            font-family: 'Courier New', Courier, monospace;
+            overflow-x: auto;
+        }
+        .highlight {
+            background-color: #ffffcc;
+            padding: 2px 4px;
+        }
+        .note {
+            background-color: #e7f4ff;
+            border-left: 4px solid #2980b9;
+            padding: 10px 15px;
+            margin: 15px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>MockProject_OOP: Component Interactions</h1>
+    
+    <p>This document visualizes the interactions between different components of the MockProject_OOP project, illustrating how the modules work together to provide a cohesive data validation and visualization framework.</p>
+
+    <div class="component-diagram">
+        <h2>High-Level Architecture</h2>
+        <p>The following diagram shows the high-level architecture and dependencies between the main components of the project:</p>
+        
+        <div class="mermaid">
+graph TD
+    main[main.py] --> data_loader[data_loader.py]
+    main --> validator[validator.py]
+    main --> visualizer[visualizer.py]
+    main --> utils[utils.py]
+    data_loader --> pandas[pandas Library]
+    validator --> pandas
+    visualizer --> matplotlib[matplotlib Library]
+    visualizer --> seaborn[seaborn Library]
+    utils --> pandas
+    utils --> numpy[numpy Library]
+    
+    classDef moduleClass fill:#d5e8d4,stroke:#82b366;
+    classDef libraryClass fill:#dae8fc,stroke:#6c8ebf;
+    
+    class main,data_loader,validator,visualizer,utils moduleClass;
+    class pandas,matplotlib,seaborn,numpy libraryClass;
+        </div>
+    </div>
+
+    <div class="explanation">
+        <h2>Project Structure and Flow</h2>
+        <p>The MockProject_OOP demonstrates the application of Object-Oriented Programming principles to create a modular, extensible data validation and visualization framework. The project is organized into several modules, each with a specific responsibility:</p>
+        <ul>
+            <li><strong>main.py</strong>: The entry point that orchestrates the workflow</li>
+            <li><strong>data_loader.py</strong>: Responsible for loading data from various sources</li>
+            <li><strong>validator.py</strong>: Provides classes for validating different types of data</li>
+            <li><strong>visualizer.py</strong>: Offers various data visualization capabilities</li>
+            <li><strong>utils.py</strong>: Contains utility functions and helper classes</li>
+        </ul>
+    </div>
+
+    <div class="component-diagram">
+        <h2>Class Inheritance Diagram</h2>
+        <p>This diagram shows the inheritance relationships between classes in the project:</p>
+        
+        <div class="mermaid">
+classDiagram
+    DataLoader <|-- CSVLoader
+    DataLoader <|-- JSONLoader
+    DataLoader <|-- ExcelLoader
+    
+    Validator <|-- NumericValidator
+    Validator <|-- DateValidator
+    Validator <|-- CategoricalValidator
+    Validator <|-- CompositeValidator
+    
+    Visualizer <|-- BarChart
+    Visualizer <|-- LineChart
+    Visualizer <|-- ScatterPlot
+    Visualizer <|-- HeatMap
+    
+    class DataLoader {
+        <<abstract>>
+        +source_path
+        +load()*
+        +preview()
+    }
+    
+    class CSVLoader {
+        +delimiter
+        +load()
+        +load_raw()
+    }
+    
+    class JSONLoader {
+        +load()
+    }
+    
+    class ExcelLoader {
+        +sheet_name
+        +load()
+    }
+    
+    class DataLoaderFactory {
+        +create_loader() static
+    }
+    
+    class Validator {
+        <<abstract>>
+        +columns
+        +_validate_data()*
+        +validate()
+        +_get_target_columns()
+    }
+    
+    class NumericValidator {
+        +min_value
+        +max_value
+        +_validate_data()
+    }
+    
+    class DateValidator {
+        +format
+        +start_date
+        +end_date
+        +_validate_data()
+    }
+    
+    class CategoricalValidator {
+        +allowed_values
+        +case_sensitive
+        +_validate_data()
+    }
+    
+    class CompositeValidator {
+        +validators[]
+        +add_validator()
+        +_validate_data()
+    }
+    
+    class ValidationResult {
+        -_is_valid
+        -_data
+        -_errors
+        +is_valid
+        +data
+        +errors
+    }
+    
+    class Visualizer {
+        <<abstract>>
+        +title
+        +figsize
+        +fig
+        +ax
+        +plot()*
+        +show()
+        +save()
+        +_create_figure()
+    }
+    
+    class BarChart {
+        +orientation
+        +plot()
+    }
+    
+    class LineChart {
+        +marker
+        +plot()
+    }
+    
+    class ScatterPlot {
+        +alpha
+        +plot()
+    }
+    
+    class HeatMap {
+        +cmap
+        +plot()
+    }
+    
+    class VisualizerFactory {
+        +create_visualizer() static
+    }
+        </div>
+    </div>
+
+    <div class="component-diagram">
+        <h2>Main Workflow Sequence</h2>
+        <p>This sequence diagram illustrates the main data processing workflow in the project:</p>
+        
+        <div class="mermaid">
+sequenceDiagram
+    participant Main as main.py
+    participant Loader as CSVLoader
+    participant Validator as CompositeValidator
+    participant Report as ReportGenerator
+    participant Visualizer as Visualizers
+    participant Utils as DataUtility
+    
+    Main->>+Loader: Initialize with file path
+    Main->>Loader: load()
+    Loader-->>-Main: Return DataFrame
+    
+    Main->>+Validator: Initialize with validation rules
+    Main->>Validator: validate(data)
+    Validator-->>-Main: Return ValidationResult
+    
+    Main->>+Report: Initialize with valid data
+    Main->>Report: generate_summary()
+    Report-->>Main: Return summary
+    Main->>Report: generate_numeric_stats()
+    Report-->>Main: Return stats
+    Main->>Report: save_report()
+    Report-->>-Main: Return report path
+    
+    Main->>+Visualizer: Initialize charts
+    Main->>Visualizer: plot(data)
+    Main->>Visualizer: save()
+    Visualizer-->>-Main: Return success
+    
+    Main->>+Utils: remove_outliers()
+    Utils-->>Main: Return cleaned data
+    Main->>Utils: normalize_column()
+    Utils-->>-Main: Return normalized data
+        </div>
+    </div>
+
+    <div class="module-details">
+        <h2>Module Interactions in Detail</h2>
+        
+        <div class="module-card">
+            <div class="module-name">main.py</div>
+            <p>Acts as the orchestrator of the entire process, coordinating the workflow between data loading, validation, reporting, and visualization.</p>
+            <p><strong>Interactions:</strong></p>
+            <ul>
+                <li>Uses <strong>CSVLoader</strong> from <code>data_loader.py</code> to load data</li>
+                <li>Creates and configures <strong>CompositeValidator</strong> from <code>validator.py</code> with various validators</li>
+                <li>Uses <strong>ReportGenerator</strong> from <code>utils.py</code> to create reports</li>
+                <li>Initializes different visualizers from <code>visualizer.py</code> to create charts</li>
+                <li>Uses utility functions from <strong>DataUtility</strong> in <code>utils.py</code> for data processing</li>
+            </ul>
+        </div>
+        
+        <div class="module-card">
+            <div class="module-name">data_loader.py</div>
+            <p>Provides classes for loading data from different file formats into pandas DataFrames.</p>
+            <p><strong>Key Classes:</strong></p>
+            <div class="class-list">
+                <ul>
+                    <li><strong>DataLoader</strong> (ABC): Abstract base class for all loaders</li>
+                    <li><strong>CSVLoader</strong>: Loads CSV files</li>
+                    <li><strong>JSONLoader</strong>: Loads JSON files</li>
+                    <li><strong>ExcelLoader</strong>: Loads Excel files</li>
+                    <li><strong>DataLoaderFactory</strong>: Creates appropriate loader based on file extension</li>
+                </ul>
+            </div>
+            <p><strong>Interactions:</strong></p>
+            <ul>
+                <li><strong>main.py</strong> instantiates and uses <strong>CSVLoader</strong> to load data</li>
+                <li>All loaders return pandas DataFrames that are passed to validators</li>
+                <li><strong>DataLoaderFactory</strong> can be used to dynamically create the appropriate loader</li>
+            </ul>
+        </div>
+        
+        <div class="module-card">
+            <div class="module-name">validator.py</div>
+            <p>Provides a framework for validating different aspects of data.</p>
+            <p><strong>Key Classes:</strong></p>
+            <div class="class-list">
+                <ul>
+                    <li><strong>ValidationResult</strong>: Contains validation results, validated data, and errors</li>
+                    <li><strong>Validator</strong> (ABC): Abstract base class for all validators</li>
+                    <li><strong>NumericValidator</strong>: Validates numeric data with min/max constraints</li>
+                    <li><strong>DateValidator</strong>: Validates date fields with format and range constraints</li>
+                    <li><strong>CategoricalValidator</strong>: Validates categorical data against allowed values</li>
+                    <li><strong>CompositeValidator</strong>: Combines multiple validators using the Composite pattern</li>
+                </ul>
+            </div>
+            <p><strong>Interactions:</strong></p>
+            <ul>
+                <li><strong>main.py</strong> creates a <strong>CompositeValidator</strong> and adds specific validators to it</li>
+                <li>Validators process the DataFrame from <strong>data_loader.py</strong></li>
+                <li>The <strong>ValidationResult</strong> is passed to reporting and visualization components</li>
+            </ul>
+        </div>
+        
+        <div class="module-card">
+            <div class="module-name">visualizer.py</div>
+            <p>Provides classes for creating different types of data visualizations.</p>
+            <p><strong>Key Classes:</strong></p>
+            <div class="class-list">
+                <ul>
+                    <li><strong>Visualizer</strong> (ABC): Abstract base class for all visualizers</li>
+                    <li><strong>BarChart</strong>: Creates bar charts</li>
+                    <li><strong>LineChart</strong>: Creates line charts</li>
+                    <li><strong>ScatterPlot</strong>: Creates scatter plots</li>
+                    <li><strong>HeatMap</strong>: Creates heat maps</li>
+                    <li><strong>VisualizerFactory</strong>: Creates appropriate visualizer based on chart type</li>
+                </ul>
+            </div>
+            <p><strong>Interactions:</strong></p>
+            <ul>
+                <li><strong>main.py</strong> creates different visualizers to display the validated data</li>
+                <li>Visualizers use the validated DataFrame from <strong>validator.py</strong></li>
+                <li><strong>VisualizerFactory</strong> dynamically creates visualizers based on the desired chart type</li>
+            </ul>
+        </div>
+        
+        <div class="module-card">
+            <div class="module-name">utils.py</div>
+            <p>Provides utility functions and helper classes.</p>
+            <p><strong>Key Classes:</strong></p>
+            <div class="class-list">
+                <ul>
+                    <li><strong>DataUtility</strong>: Static methods for data manipulation (outlier removal, normalization)</li>
+                    <li><strong>Logger</strong>: Logging utility with singleton pattern</li>
+                    <li><strong>ReportGenerator</strong>: Generates reports and statistics</li>
+                </ul>
+            </div>
+            <p><strong>Interactions:</strong></p>
+            <ul>
+                <li><strong>main.py</strong> uses <strong>Logger</strong> for logging throughout the process</li>
+                <li><strong>ReportGenerator</strong> creates reports based on validated data</li>
+                <li><strong>DataUtility</strong> methods are used for further data processing after validation</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="workflow-section">
+        <h2>Detailed Workflow Example</h2>
+        
+        <p>This section describes the step-by-step workflow of the application with code snippets to illustrate how the components interact.</p>
+        
+        <h3>1. Loading Data</h3>
+        <div class="code-block">
+            # From main.py
+            logger = Logger("logs/validation.log")
+            logger.info("Loading data from CSV file")
+            
+            data_path = "data/sample_data.csv"
+            loader = CSVLoader(data_path)
+            raw_data = loader.load()
+        </div>
+        <p>The application starts by initializing a <strong>Logger</strong> from <code>utils.py</code> and a <strong>CSVLoader</strong> from <code>data_loader.py</code> to load the sample data.</p>
+        
+        <h3>2. Creating Validators</h3>
+        <div class="code-block">
+            # From main.py
+            validator = CompositeValidator()
+            
+            # Add numeric validation for temperature and humidity
+            validator.add_validator(
+                NumericValidator(
+                    columns=["temperature", "humidity"], 
+                    min_value=0,
+                    max_value=100
+                )
+            )
+            
+            # Add date validation
+            validator.add_validator(
+                DateValidator(
+                    column="date", 
+                    format="%Y-%m-%d",
+                    start_date="2022-01-01",
+                    end_date=datetime.now().strftime("%Y-%m-%d")
+                )
+            )
+            
+            # Add categorical validation for location
+            validator.add_validator(
+                CategoricalValidator(
+                    columns="location",
+                    allowed_values=["New York", "Los Angeles", "Chicago", "Houston", "Miami"]
+                )
+            )
+        </div>
+        <p>Next, a <strong>CompositeValidator</strong> is created and configured with specific validators for different data types. This demonstrates the <span class="highlight">Composite design pattern</span> where multiple validators are combined.</p>
+        
+        <h3>3. Validating Data</h3>
+        <div class="code-block">
+            # From main.py
+            validation_result = validator.validate(raw_data)
+            
+            if validation_result.is_valid:
+                print("Data validation passed successfully!")
+            else:
+                print(f"Data validation found {len(validation_result.errors)} issues:")
+                for error in validation_result.errors:
+                    print(f"  - {error}")
+            
+            # Get the valid data
+            valid_data = validation_result.data
+        </div>
+        <p>The data is validated using the composite validator, which applies all the validation rules. The result is a <strong>ValidationResult</strong> object that contains the validation status, errors, and the valid data.</p>
+        
+        <h3>4. Generating Reports</h3>
+        <div class="code-block">
+            # From main.py
+            report_generator = ReportGenerator(valid_data, "reports")
+            summary = report_generator.generate_summary()
+            numeric_stats = report_generator.generate_numeric_stats()
+            
+            # Create a comprehensive report
+            report = {
+                "Data Summary": summary,
+                "Numeric Statistics": numeric_stats,
+                "Validation Errors": validation_result.errors,
+                "Validation Status": "Passed" if validation_result.is_valid else "Failed"
+            }
+            
+            # Save the report
+            report_path = report_generator.save_report(report, "validation_report.txt")
+        </div>
+        <p>A <strong>ReportGenerator</strong> from <code>utils.py</code> is used to create and save a report with data summary and statistics.</p>
+        
+        <h3>5. Visualizing Data</h3>
+        <div class="code-block">
+            # From main.py
+            # Example 1: Create a line chart of temperature over time
+            line_chart = LineChart(title="Temperature Over Time", marker='o')
+            line_chart.plot(valid_data.sort_values('date'), x='date', y='temperature')
+            line_chart.save("reports/temperature_chart.png")
+            
+            # Example 2: Create a bar chart of humidity by date
+            bar_chart = BarChart(title="Average Humidity by Date")
+            bar_chart.plot(valid_data, x='date', y='humidity')
+            bar_chart.save("reports/humidity_chart.png")
+            
+            # Using the factory pattern
+            visualizer = VisualizerFactory.create_visualizer(
+                'heatmap', 
+                title="Correlation Heatmap"
+            )
+            numeric_data = valid_data.select_dtypes(include=['number'])
+            visualizer.plot(numeric_data, correlation=True)
+            visualizer.save("reports/heatmap_example.png")
+        </div>
+        <p>Different visualizers from <code>visualizer.py</code> are used to create various types of charts. The <strong>VisualizerFactory</strong> demonstrates the <span class="highlight">Factory design pattern</span> for creating visualizers.</p>
+        
+        <h3>6. Data Processing with Utilities</h3>
+        <div class="code-block">
+            # From main.py
+            # Remove outliers from temperature
+            clean_data = DataUtility.remove_outliers(valid_data, 'temperature', method='zscore')
+            
+            # Normalize temperature values
+            normalized_data = DataUtility.normalize_column(clean_data, 'temperature')
+        </div>
+        <p>Finally, utility methods from <strong>DataUtility</strong> in <code>utils.py</code> are used to further process the data by removing outliers and normalizing values.</p>
+    </div>
+
+    <div class="note">
+        <h3>Design Patterns in Action</h3>
+        <p>The project demonstrates several design patterns:</p>
+        <ul>
+            <li><strong>Factory Pattern</strong>: DataLoaderFactory and VisualizerFactory create objects without specifying the exact class</li>
+            <li><strong>Composite Pattern</strong>: CompositeValidator combines multiple validators into a single validator</li>
+            <li><strong>Template Method</strong>: Validator.validate() defines the algorithm structure, deferring specific steps to subclasses</li>
+            <li><strong>Strategy Pattern</strong>: Different Visualizer implementations provide interchangeable visualization strategies</li>
+            <li><strong>Singleton Pattern</strong>: Logger ensures a single logger instance is used throughout the application</li>
+        </ul>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            securityLevel: 'loose',
+            flowchart: { useMaxWidth: false },
+            sequence: { useMaxWidth: false },
+            gantt: { useMaxWidth: false },
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,118 @@
+classDiagram
+    DataLoader <|-- CSVLoader
+    DataLoader <|-- JSONLoader
+    DataLoader <|-- ExcelLoader
+    
+    Validator <|-- NumericValidator
+    Validator <|-- DateValidator
+    Validator <|-- CategoricalValidator
+    Validator <|-- CompositeValidator
+    
+    Visualizer <|-- BarChart
+    Visualizer <|-- LineChart
+    Visualizer <|-- ScatterPlot
+    Visualizer <|-- HeatMap
+    
+    class DataLoader {
+        <<abstract>>
+        +source_path
+        +load()*
+        +preview()
+    }
+    
+    class CSVLoader {
+        +delimiter
+        +load()
+        +load_raw()
+    }
+    
+    class JSONLoader {
+        +load()
+    }
+    
+    class ExcelLoader {
+        +sheet_name
+        +load()
+    }
+    
+    class DataLoaderFactory {
+        +create_loader() static
+    }
+    
+    class Validator {
+        <<abstract>>
+        +columns
+        +_validate_data()*
+        +validate()
+        +_get_target_columns()
+    }
+    
+    class NumericValidator {
+        +min_value
+        +max_value
+        +_validate_data()
+    }
+    
+    class DateValidator {
+        +format
+        +start_date
+        +end_date
+        +_validate_data()
+    }
+    
+    class CategoricalValidator {
+        +allowed_values
+        +case_sensitive
+        +_validate_data()
+    }
+    
+    class CompositeValidator {
+        +validators[]
+        +add_validator()
+        +_validate_data()
+    }
+    
+    class ValidationResult {
+        -_is_valid
+        -_data
+        -_errors
+        +is_valid
+        +data
+        +errors
+    }
+    
+    class Visualizer {
+        <<abstract>>
+        +title
+        +figsize
+        +fig
+        +ax
+        +plot()*
+        +show()
+        +save()
+        +_create_figure()
+    }
+    
+    class BarChart {
+        +orientation
+        +plot()
+    }
+    
+    class LineChart {
+        +marker
+        +plot()
+    }
+    
+    class ScatterPlot {
+        +alpha
+        +plot()
+    }
+    
+    class HeatMap {
+        +cmap
+        +plot()
+    }
+    
+    class VisualizerFactory {
+        +create_visualizer() static
+    }
